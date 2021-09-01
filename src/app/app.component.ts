@@ -14,57 +14,55 @@ export class AppComponent {
   colNames = Object.keys(this.dataset[0]);
   tableSettings: any = {
     rowHeaders: false,
-    //colHeaders: true,
     viewportColumnRenderingOffset: 27,
     viewportRowRenderingOffset: 'auto',
-     colWidths: 150,
-    // height: 500,
-    // allowInsertColumn: false,
+    colWidths: this.getColumnWidthStorageValue(),
     allowInsertRow: false,
-    // allowRemoveColumn: false,
     allowRemoveRow: false,
+    persistentState: true,
     autoWrapRow: true,
     autoWrapCol: true,
-	persistentStateLoad: function() {
-      //console.log(arguments[0], arguments[1])
-    },
-    persistentStateReset: function() {
-      //console.log(arguments[0], arguments[1])
-    },
-    persistentStateSave: function() {
-      //console.log(arguments[0], arguments[1]);
-    },
-    beforeRowMove: function(){
-      console.log(arguments);
-      if(arguments[2] == undefined){
-      	return false
+    persistentStateSave: function () {
+      if (arguments[0] === 'manualColumnMove') {
+        window.localStorage.setItem(
+          'manualColumnMove',
+          JSON.stringify(arguments[1])
+        );
       }
-    }
+      if (arguments[0] === 'manualColumnWidths') {
+        window.localStorage.setItem(
+          'manualColumnWidths',
+          JSON.stringify(
+            arguments[1].map((each: any) => (each === null ? 150 : each))
+          )
+        );
+      }
+    },
     bindRowsWithHeaders: true,
-    // stretchH: "all",
     width: 3000,
     hiddenColumns: {
-      columns: [this.colNames.length-2,this.colNames.length-1],
-      indicators: true
+      columns: [this.colNames.length - 2, this.colNames.length - 1],
+      indicators: true,
     },
-    // autoWrapRow: true,
-    // maxRows: 22,
-    // manualRowResize: true,
     manualColumnResize: true,
-    // rowHeaders: true,
     columns: [
+      {},
       {
+        renderer: this.customRenderer,
       },
-      {
-        renderer : this.customRenderer
-      }
     ],
     colHeaders: this.colNames,
-    // manualRowMove: true,
-    manualColumnMove: true,
+    manualColumnMove: this.getColumnValueStorageValue(),
     contextMenu: true,
-    // filters: true,
-    // dropdownMenu: true
   };
 
+  getColumnWidthStorageValue() {
+    const colWidth = window.localStorage.getItem('manualColumnWidths');
+    return colWidth !== null ? JSON.parse(colWidth) : 150;
+  }
+
+  getColumnValueStorageValue() {
+    const move = window.localStorage.getItem('manualColumnMove');
+    return move !== null ? JSON.parse(move) : true;
+  }
 }
