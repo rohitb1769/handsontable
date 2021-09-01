@@ -1,0 +1,20 @@
+<div>
+  <!-- <hot-table
+    [colHeaders]="true"
+    [rowHeaders]="true"
+    [data]="dataset"
+    licenseKey="non-commercial-and-evaluation"
+  >
+  </hot-table> -->
+  <hot-table
+    [settings]="tableSettings"
+    [data]="dataset"
+    licenseKey="non-commercial-and-evaluation"
+  >
+  <hot-column *ngFor="let key of colNames" data="{{key}}" title="{{key}}" [renderer]="customRenderer"></hot-column>
+  <!-- <hot-column *ngFor="let key of colNames" data="{{key}}" title="{{key}}" renderer="customRenderer"></hot-column> -->
+  <!-- <hot-column data="budget" [readOnly]="true" title="Budget"></hot-column>
+  <hot-column data="genres" title="Genres"></hot-column>
+  <hot-column data="address" title="Street name"></hot-column> -->
+</hot-table>
+</div>
