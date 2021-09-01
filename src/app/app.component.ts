@@ -25,6 +25,21 @@ export class AppComponent {
     allowRemoveRow: false,
     autoWrapRow: true,
     autoWrapCol: true,
+	persistentStateLoad: function() {
+      //console.log(arguments[0], arguments[1])
+    },
+    persistentStateReset: function() {
+      //console.log(arguments[0], arguments[1])
+    },
+    persistentStateSave: function() {
+      //console.log(arguments[0], arguments[1]);
+    },
+    beforeRowMove: function(){
+      console.log(arguments);
+      if(arguments[2] == undefined){
+      	return false
+      }
+    }
     bindRowsWithHeaders: true,
     // stretchH: "all",
     width: 3000,
